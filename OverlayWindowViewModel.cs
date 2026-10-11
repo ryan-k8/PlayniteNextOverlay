@@ -405,6 +405,7 @@ namespace PlayniteGameOverlay
                 // Add sample shortcut buttons
                 InitializeShortcutButtons(new OverlaySettings
                 {
+                    ShowActionButtons = true,
                     ShowScreenshot = true,
                     ShowRecordGameplay = true,
                     ShowInstantReplay = true,
@@ -513,6 +514,12 @@ namespace PlayniteGameOverlay
         {
             ShortcutButtons.Clear();
 
+            if (settings == null || !settings.ShowActionButtons)
+            {
+                OnPropertyChanged(nameof(ShowShortcutButtons));
+                return;
+            }
+
             // A keyboard button is shown only when its shortcut is filled in.
             if (settings.ShowScreenshot && !string.IsNullOrWhiteSpace(settings.ScreenshotShortcut))
             {
@@ -602,6 +609,8 @@ namespace PlayniteGameOverlay
                     Type = ShortcutType.Browser,
                 });
             }
+
+            OnPropertyChanged(nameof(ShowShortcutButtons));
         }
 
         // INotifyPropertyChanged implementation

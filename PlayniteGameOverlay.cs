@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -1259,6 +1259,7 @@ namespace PlayniteGameOverlay
         private bool _showBattery = true;
         private bool _showScreenshot = true;
         private bool _showInstantReplay = true;
+        private bool _showActionButtons = true;
 
         // Overlay views (achievement list now, screenshot gallery later): pause the game while open
         private bool _suspendGameInOverlayViews = true;
@@ -1430,6 +1431,12 @@ namespace PlayniteGameOverlay
             set => SetValue(ref _showInstantReplay, value);
         }
 
+        public bool ShowActionButtons
+        {
+            get => _showActionButtons;
+            set => SetValue(ref _showActionButtons, value);
+        }
+
         // Properties for shortcuts and paths
         public string RecordGameplayShortcut
         {
@@ -1513,6 +1520,7 @@ namespace PlayniteGameOverlay
         private bool _showInstantReplayBackup;
         private string _screenshotShortcutBackup;
         private string _instantReplayShortcutBackup;
+        private bool _showActionButtonsBackup;
         private bool _suspendGameInOverlayViewsBackup;
 
         // Parameterless constructor needed for serialization
@@ -1619,6 +1627,7 @@ namespace PlayniteGameOverlay
                     ShowInstantReplay = false;
                 }
                 if (savedSettings.ShowBattery != null) ShowBattery = savedSettings.ShowBattery;
+                ShowActionButtons = savedSettings.ShowActionButtons;
                 // Missing in configs written by <= 0.4.5.2 -> stays at its default (true) from the
                 // parameterless constructor used by the JSON deserializer.
                 SuspendGameInOverlayViews = savedSettings.SuspendGameInOverlayViews;
@@ -1643,6 +1652,7 @@ namespace PlayniteGameOverlay
             _showScreenshotGalleryBackup = ShowScreenshotGallery;
             _showWebBrowserBackup = ShowWebBrowser;
             _showBatteryBackup = ShowBattery;
+            _showActionButtonsBackup = ShowActionButtons;
 
             // Backup shortcut and path values
             _recordGameplayShortcutBackup = RecordGameplayShortcut;
@@ -1676,6 +1686,7 @@ namespace PlayniteGameOverlay
             ShowScreenshotGallery = _showScreenshotGalleryBackup;
             ShowWebBrowser = _showWebBrowserBackup;
             ShowBattery = _showBatteryBackup;
+            ShowActionButtons = _showActionButtonsBackup;
 
             // Restore shortcut and path backups
             RecordGameplayShortcut = _recordGameplayShortcutBackup;
