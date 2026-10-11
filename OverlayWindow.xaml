@@ -127,8 +127,6 @@
             <Grid x:Name="CanvasGrid" Width="{Binding CanvasWidth}" Height="{Binding CanvasHeight}">
                 <!-- Main overlay layer -->
                 <Grid x:Name="MainLayer" IsEnabled="{Binding IsMainLayerEnabled}">
-            <!-- Semi-transparent full-screen background -->
-            <Rectangle Fill="#CC000000" Width="Auto" Height="Auto" />
 
             <!-- Left side buttons container -->
             <Border Background="#FF242424" CornerRadius="10" Padding="20" 
@@ -338,78 +336,191 @@
                     <TextBlock Grid.Column="2" Grid.Row="1" Text="THIS SESSION" FontSize="9" Foreground="#80808080" HorizontalAlignment="Left" Margin="24,2,0,0"/>
                 </Grid>
             </Border>
+<!-- Achievement Panel: robust layout for long text -->
+<Border x:Name="AchFade1"
+        Background="#FF121212"
+        CornerRadius="9"
+        Width="355"
+        VerticalAlignment="Top"
+        HorizontalAlignment="Left"
+        Margin="52,518,0,0"
+        BorderBrush="#30808080"
+        BorderThickness="1"
+        MinHeight="84"
+        Height="{Binding ActualHeight, ElementName=AchievementPanel}"
+        Visibility="{Binding HasAchievements, Converter={StaticResource BoolToVis}}"/>
 
-            <!-- Achievement Panel with visibility binding -->
-            <Border x:Name="AchFade1" Background="#FF121212" CornerRadius="9" Padding="20,16,20,16" 
-                    Width="352" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="52,518,0,0" 
-                    BorderBrush="#30808080" BorderThickness="1,1,1,1"
-                    Height="{Binding ActualHeight, ElementName=AchievementPanel}"
-                    Visibility="{Binding HasAchievements, Converter={StaticResource BoolToVis}}"/>
-            <Border x:Name="AchFade2" Background="#FF1B1B1B" CornerRadius="9.5" Padding="20,16,20,16" 
-                    Width="365" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="46,514,0,0" 
-                    BorderBrush="#40808080" BorderThickness="1,1,1,1"
-                    Height="{Binding ActualHeight, ElementName=AchievementPanel}"
-                    Visibility="{Binding HasAchievements, Converter={StaticResource BoolToVis}}"/>
-            <!-- 0.4.5.3: the panel is a Button so it is clickable (mouse/touchpad), takes part in the controller/keyboard
-                 focus navigation like the other overlay buttons and is activated with A / Enter / Space. -->
-            <Button x:Name="AchievementPanel" 
-                    Width="377" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="40,510,0,0"
-                    Visibility="{Binding HasAchievements, Converter={StaticResource BoolToVis}}"
-                    Command="{Binding OpenAchievementListCommand}" Cursor="Hand" FocusVisualStyle="{x:Null}">
-                <Button.Template>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="PanelBorder" Background="#FF242424" CornerRadius="10" Padding="20,16,20,16"
-                                BorderBrush="#80808080" BorderThickness="1,1,1,1">
-                            <ContentPresenter/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="PanelBorder" Property="Background" Value="#FF363636"/>
-                            </Trigger>
-                            <Trigger Property="IsKeyboardFocused" Value="True">
-                                <Setter TargetName="PanelBorder" Property="Background" Value="#FF363636"/>
-                                <Setter TargetName="PanelBorder" Property="BorderBrush" Value="#D0FFFFFF"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Button.Template>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+<Border x:Name="AchFade2"
+        Background="#FF1B1B1B"
+        CornerRadius="9.5"
+        Width="368"
+        VerticalAlignment="Top"
+        HorizontalAlignment="Left"
+        Margin="46,514,0,0"
+        BorderBrush="#40808080"
+        BorderThickness="1"
+        MinHeight="84"
+        Height="{Binding ActualHeight, ElementName=AchievementPanel}"
+        Visibility="{Binding HasAchievements, Converter={StaticResource BoolToVis}}"/>
 
-                    <!-- Achievement Icon -->
-                    <Border Grid.Column="0" Width="32" Height="32" CornerRadius="4" Background="#80808080" Margin="0,6,15,0" VerticalAlignment="Top">
-                        <Border.Clip>
-                            <RectangleGeometry RadiusX="4" RadiusY="4" Rect="0,0,32,32"/>
-                        </Border.Clip>
-                        <Image x:Name="LastAchievementIcon" Stretch="UniformToFill" Width="32" Height="32" Source="{Binding LastAchievementIcon}"/>
-                    </Border>
+<Button x:Name="AchievementPanel"
+        Width="380"
+        MinHeight="84"
+        Height="Auto"
+        VerticalAlignment="Top"
+        HorizontalAlignment="Left"
+        Margin="40,510,0,0"
+        Padding="0"
+        Visibility="{Binding HasAchievements, Converter={StaticResource BoolToVis}}"
+        Command="{Binding OpenAchievementListCommand}"
+        Cursor="Hand"
+        FocusVisualStyle="{x:Null}"
+        HorizontalContentAlignment="Stretch"
+        VerticalContentAlignment="Stretch">
 
-                    <!-- Achievement Info -->
-                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
-                            <Path Fill="#D0808080" Height="11" Width="12" Stretch="Uniform" Data="M0 0.75c0-0.414 0.336-0.75 0.75-0.75h2.885c0.019 0 0.037 0.001 0.056 0.002h6.621c0.018-0.001 0.036-0.002 0.054-0.002H13.25c0.414 0 0.75 0.336 0.75 0.75V3.635c0 1.859-1.396 3.392-3.197 3.609-0.447 1.369-1.614 2.413-3.053 2.686V12.5h2.615c0.414 0 0.75 0.336 0.75 0.75s-0.336 0.75-0.75 0.75H7.026c-0.009 0-0.017 0-0.026 0s-0.017 0-0.026 0H3.635c-0.414 0-0.75-0.336-0.75-0.75s0.336-0.75 0.75-0.75H6.25V9.93c-1.439-0.273-2.605-1.317-3.053-2.686C1.396 7.027 0 5.494 0 3.635V0.75ZM2.885 5.634V1.5H1.5v2.135c0 0.915 0.576 1.696 1.385 1.999ZM11.115 1.5v4.134c0.809-0.304 1.385-1.084 1.385-1.999V1.5h-1.385Z" Margin="0,0,5,-1"/>
-                            <TextBlock x:Name="LastAchievementLabel" Text="RECENT ACHIEVEMENT" FontSize="11" Foreground="#80808080"/>
-                            <TextBlock Text="&#8226;" FontSize="11" Foreground="#60808080" Margin="4,0,4,0"/>
-                            <TextBlock x:Name="LastAchievementDate" Text="{Binding LastAchievementTimeText}" FontSize="11" Foreground="#80808080"/>
-                        </StackPanel>
+    <Button.Template>
+        <ControlTemplate TargetType="Button">
+            <Border x:Name="PanelBorder"
+                    Background="#FF242424"
+                    CornerRadius="10"
+                    Padding="16,12,16,12"
+                    BorderBrush="#80808080"
+                    BorderThickness="1">
+                <ContentPresenter
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    RecognizesAccessKey="False"/>
+            </Border>
 
-                        <TextBlock x:Name="LastAchievementName" Text="{Binding LastAchievement.Name}" 
-                                   Foreground="White" FontWeight="Bold" FontSize="16" TextTrimming="CharacterEllipsis"/>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="PanelBorder"
+                            Property="Background"
+                            Value="#FF363636"/>
+                </Trigger>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter TargetName="PanelBorder"
+                            Property="Background"
+                            Value="#FF363636"/>
+                    <Setter TargetName="PanelBorder"
+                            Property="BorderBrush"
+                            Value="#D0FFFFFF"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </Button.Template>
 
-                        <TextBlock x:Name="LastAchievementDescription" Text="{Binding LastAchievement.Description}" 
-                                   Foreground="#FFD0D0D0" FontSize="12" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" 
-                                   MaxHeight="36"/>
-                    </StackPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="42"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
 
-                    <!-- "View all" hint -->
-                    <TextBlock Grid.Column="1" Text="VIEW ALL &#x203A;" FontSize="11" FontWeight="Bold" Foreground="#A0A0A0A0"
-                               HorizontalAlignment="Right" VerticalAlignment="Top"/>
-                </Grid>
-            </Button>
+        <!-- Achievement icon -->
+        <Border Grid.Column="0"
+                Width="42"
+                Height="42"
+                CornerRadius="6"
+                Background="#353535"
+                VerticalAlignment="Top"
+                Margin="0,2,0,0"
+                ClipToBounds="True">
+            <Image x:Name="LastAchievementIcon"
+                   Stretch="UniformToFill"
+                   Source="{Binding LastAchievementIcon}"
+                   RenderOptions.BitmapScalingMode="HighQuality"/>
+        </Border>
 
+        <!-- Achievement information: constrained width and content-driven height -->
+        <Grid Grid.Column="1"
+              Margin="12,0,8,0"
+              MinWidth="0"
+              VerticalAlignment="Center">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header: label and timestamp can wrap independently -->
+            <Grid Grid.Row="0" Margin="0,0,0,4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Top">
+                    <Path Fill="#FFE0B040"
+                          Height="10"
+                          Width="11"
+                          Stretch="Uniform"
+                          VerticalAlignment="Center"
+                          Margin="0,0,5,0"
+                          Data="M0 0.75c0-0.414 0.336-0.75 0.75-0.75h2.885c0.019 0 0.037 0.001 0.056 0.002h6.621c0.018-0.001 0.036-0.002 0.054-0.002H13.25c0.414 0 0.75 0.336 0.75 0.75V3.635c0 1.859-1.396 3.392-3.197 3.609-0.447 1.369-1.614 2.413-3.053 2.686V12.5h2.615c0.414 0 0.75 0.336 0.75 0.75s-0.336 0.75-0.75 0.75H7.026c-0.009 0-0.017 0-0.026 0s-0.017 0-0.026 0H3.635c-0.414 0-0.75-0.336-0.75-0.75s0.336-0.75 0.75-0.75H6.25V9.93c-1.439-0.273-2.605-1.317-3.053-2.686C1.396 7.027 0 5.494 0 3.635V0.75ZM2.885 5.634V1.5H1.5v2.135c0 0.915 0.576 1.696 1.385 1.999ZM11.115 1.5v4.134c0.809-0.304 1.385-1.084 1.385-1.999V1.5h-1.385Z"/>
+
+                    <TextBlock x:Name="LastAchievementLabel"
+                               Text="LATEST ACHIEVEMENT"
+                               FontSize="10"
+                               FontWeight="SemiBold"
+                               Foreground="#FFA0A0A0"
+                               TextWrapping="Wrap"
+                               TextTrimming="CharacterEllipsis"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <TextBlock x:Name="LastAchievementDate"
+                           Grid.Column="1"
+                           Text="{Binding LastAchievementTimeText}"
+                           FontSize="10"
+                           Foreground="#FFA0A0A0"
+                           TextWrapping="Wrap"
+                           TextAlignment="Right"
+                           VerticalAlignment="Top"
+                           MaxWidth="100"
+                           Margin="6,0,0,0"/>
+            </Grid>
+
+            <!-- Long names wrap and increase panel height -->
+            <TextBlock x:Name="LastAchievementName"
+                       Grid.Row="1"
+                       Text="{Binding LastAchievement.Name}"
+                       Foreground="White"
+                       FontWeight="Bold"
+                       FontSize="15"
+                       TextWrapping="Wrap"
+                       TextTrimming="None"
+                       HorizontalAlignment="Stretch"/>
+
+            <!-- Description grows naturally; no fixed maximum height -->
+            <TextBlock x:Name="LastAchievementDescription"
+                       Grid.Row="2"
+                       Text="{Binding LastAchievementDescriptionDisplay}"
+                       Foreground="#FFB8B8B8"
+                       FontSize="11"
+                       TextWrapping="Wrap"
+                       TextTrimming="None"
+                       Margin="0,3,0,0"
+                       Visibility="{Binding HasLastAchievementDescription, Converter={StaticResource BoolToVis}}"/>
+        </Grid>
+
+        <!-- View all hint -->
+        <Border Grid.Column="2"
+                VerticalAlignment="Center"
+                Background="#20FFFFFF"
+                CornerRadius="4"
+                Padding="6,4,6,4">
+            <TextBlock Text="VIEW ALL &#x203A;"
+                       FontSize="10"
+                       FontWeight="Bold"
+                       Foreground="#E0FFFFFF"
+                       TextWrapping="NoWrap"/>
+        </Border>
+    </Grid>
+</Button>
             <TextBlock x:Name="UnlockPercent" Text="{Binding UnlockPercentText}" 
                        Visibility="{Binding HasAchievements, Converter={StaticResource BoolToVis}}" 
                        HorizontalAlignment="Left" Margin="60,485,0,0" TextWrapping="Wrap" 
@@ -418,7 +529,7 @@
             <!-- Shortcut Buttons -->
             <Border Focusable="False" Background="#FF242424" CornerRadius="10" x:Name="ShortcutBar"
                     MinWidth="64" MinHeight="64" VerticalAlignment="Bottom" HorizontalAlignment="Left" 
-                    BorderBrush="#80808080" BorderThickness="1,1,1,1" Padding="4,4,4,4" Margin="40,0,0,20" Visibility="{Binding ShowShortcutButtons, Converter={StaticResource BoolToVis}}">
+                    BorderBrush="#80808080" BorderThickness="1,1,1,1" Padding="4,4,4,4" Margin="40,0,0,24" Visibility="{Binding ShowShortcutButtons, Converter={StaticResource BoolToVis}}">
                 <ItemsControl Focusable="False" ItemsSource="{Binding ShortcutButtons}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
