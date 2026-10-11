@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="PlayniteGameOverlay.OverlaySettingsView"
+<UserControl x:Class="PlayniteGameOverlay.OverlaySettingsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -110,6 +110,14 @@
                    Foreground="#888888"/>
 
             <TextBlock Text="Buttons" FontSize="18" />
+            <CheckBox IsChecked="{Binding ShowActionButtons}" 
+                      Content="Enable Quick Actions Bar" 
+                      FontWeight="SemiBold"
+                      Margin="0,10,0,5"/>
+            <TextBlock Text="Displays the quick action shortcuts bar (capture, performance, browser buttons) at the bottom of the overlay. Uncheck this to turn off the actions component completely." 
+                       TextWrapping="Wrap" Margin="0,0,0,15" Foreground="#888888"/>
+
+            <StackPanel IsEnabled="{Binding ShowActionButtons}">
             <TextBlock TextWrapping="Wrap" Margin="0,0,0,15" Foreground="#888888">
                 Shortcuts use SendKeys syntax: ^ is Ctrl, + is Shift, and % is Alt. Add {WIN} to hold the Windows key, which SendKeys cannot send on its own.
                 See the <Hyperlink NavigateUri="https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.sendkeys.send?view=windowsdesktop-9.0" RequestNavigate="Hyperlink_RequestNavigate">SendKeys reference</Hyperlink>.
@@ -220,6 +228,7 @@
                 <TextBlock Text="Browser:" Grid.Column="0" Margin="0,0,10,0" VerticalAlignment="Center"/>
                 <TextBox Grid.Column="1" Text="{Binding WebBrowserPath}"/>
             </Grid>
+            </StackPanel>
         </StackPanel>
     </ScrollViewer>
 </UserControl>
