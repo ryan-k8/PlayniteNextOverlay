@@ -118,12 +118,15 @@
         </Style>
     </Window.Resources>
 
-    <Viewbox Stretch="Uniform">
-        <!-- Set a container with fixed aspect ratio -->
-        <Grid Width="1600" Height="900">
-            <!-- Main overlay layer (0.4.5.3: wrapped so it can be disabled = not focusable while the achievement list is open;
-                 children intentionally not re-indented to keep the diff small) -->
-            <Grid x:Name="MainLayer" IsEnabled="{Binding IsMainLayerEnabled}">
+    <!-- Root Window Grid: Dimming background covers 100% of the screen across ANY aspect ratio (16:10, 16:9, 21:9, etc.) -->
+    <Grid x:Name="RootWindowGrid" Background="#CC000000">
+        <Rectangle Fill="#CC000000" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+
+        <Viewbox Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <!-- Dynamic aspect ratio container that adapts to screen proportions -->
+            <Grid x:Name="CanvasGrid" Width="{Binding CanvasWidth}" Height="{Binding CanvasHeight}">
+                <!-- Main overlay layer -->
+                <Grid x:Name="MainLayer" IsEnabled="{Binding IsMainLayerEnabled}">
             <!-- Semi-transparent full-screen background -->
             <Rectangle Fill="#CC000000" Width="Auto" Height="Auto" />
 
@@ -750,4 +753,5 @@
             </Grid>
         </Grid>
     </Viewbox>
+    </Grid>
 </Window>

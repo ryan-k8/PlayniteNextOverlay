@@ -85,6 +85,15 @@ namespace PlayniteGameOverlay
             ViewModel.DebugVisible = settings?.DebugMode ?? false;
             ViewModel.AspectRatio = settings?.AspectRatio ?? AspectRatio.Portrait;
             ViewModel.InitializeShortcutButtons(settings);
+
+            this.SizeChanged += (s, e) =>
+            {
+                ViewModel.UpdateDimensions(e.NewSize.Width, e.NewSize.Height);
+            };
+            this.Loaded += (s, e) =>
+            {
+                ViewModel.UpdateDimensions(this.ActualWidth, this.ActualHeight);
+            };
         }
 
         private void InitializeBatteryDisplay()
@@ -238,6 +247,7 @@ namespace PlayniteGameOverlay
             // Show the window
             Dispatcher.Invoke(() =>
             {
+                ViewModel.UpdateDimensions(this.ActualWidth, this.ActualHeight);
                 this.Show();
                 // Activate the window to bring it to the foreground and set focus
                 this.Activate();

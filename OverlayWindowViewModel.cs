@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -34,6 +34,39 @@ namespace PlayniteGameOverlay
         private bool _hasBattery;
 
         public bool ShowShortcutButtons => ShortcutButtons.Count > 0;
+
+        private double _canvasWidth = 1600;
+        private double _canvasHeight = 900;
+
+        public double CanvasWidth
+        {
+            get => _canvasWidth;
+            set { _canvasWidth = value; OnPropertyChanged(); }
+        }
+
+        public double CanvasHeight
+        {
+            get => _canvasHeight;
+            set { _canvasHeight = value; OnPropertyChanged(); }
+        }
+
+        public void UpdateDimensions(double windowWidth, double windowHeight)
+        {
+            if (windowWidth <= 0 || windowHeight <= 0) return;
+            double aspect = windowWidth / windowHeight;
+            const double standardAspect = 16.0 / 9.0;
+
+            if (aspect >= standardAspect)
+            {
+                CanvasHeight = 900;
+                CanvasWidth = Math.Round(900 * aspect);
+            }
+            else
+            {
+                CanvasWidth = 1600;
+                CanvasHeight = Math.Round(1600 / aspect);
+            }
+        }
 
         private AspectRatio _aspectRatio = AspectRatio.Portrait;
         public AspectRatio AspectRatio
