@@ -270,8 +270,13 @@ namespace PlayniteGameOverlay
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(LastAchievementTimeText));
                 OnPropertyChanged(nameof(LastAchievementIcon));
+                OnPropertyChanged(nameof(HasLastAchievementDescription));
+                OnPropertyChanged(nameof(LastAchievementDescriptionDisplay));
             }
         }
+
+        public bool HasLastAchievementDescription => !string.IsNullOrWhiteSpace(LastAchievement?.Description);
+        public string LastAchievementDescriptionDisplay => LastAchievement?.Description ?? string.Empty;
 
         private System.Windows.Media.ImageSource _lastAchievementIcon;
 
